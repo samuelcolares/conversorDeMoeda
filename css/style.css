@@ -8,19 +8,16 @@ body{
     display: grid;
     place-items: center;
     height: 100vh;
-    background: linear-gradient(to right, #000428, #004e92);
+    background: url(../img/desktopBackground.jpg);
+    background-size: cover;
 }
 
 .wrapper{
     border-radius: 15px;
-    box-shadow: 2px 4px 15px wheat;
+    box-shadow: 2px 4px 15px black;
     padding: 5rem;
     min-height: 660px;
-    background-image: url(../img/cat.png);
-    background-size: cover;
-    background-position: right;
-    background-color: rgba(0,0,0,0.6);
-    background-blend-mode: overlay ;
+    background-color: rgba(0,0,0,0.8);
     text-align: center;
     color: wheat;
     transition: all 1s;
@@ -48,6 +45,10 @@ label{
     gap: 3px;
 }
 
+label.label__moeda{
+    margin-bottom: .5rem;
+}
+
 label.active{
     padding: 10px;
     gap: 10px;
@@ -65,7 +66,6 @@ label.active input{
 input{
     cursor: pointer;
     padding: 3px 10px;
-    border: green;
     color: black;
     font-family: inherit;
     text-align: center;
@@ -73,11 +73,10 @@ input{
 }
 
 input:disabled{
-    cursor:not-allowed;
-    background-color: #1f1f1f;
-    color: white;
-    border-color: green;
-    outline: none;
+    background-color: transparent;
+    border: 1px solid rgba(245, 222, 179,0.6);
+    color: wheat;
+    cursor: not-allowed;
 }
 
 button{
@@ -100,7 +99,7 @@ button:hover{
 @media screen and (max-width: 768px) {
     body{
         min-height: 100vh;
-        background-image: url(../img/wa.png);
+        background-image: url(../img/mobileBackground.png);
         background-size: cover;
         background-position: right;
         background-repeat: no-repeat;
@@ -123,11 +122,6 @@ button:hover{
         box-shadow: none;
         min-height: 80vh;
         width: 80vw;
-    }
-
-    input:disabled{
-        background-color: transparent;
-        border: 1px solid rgba(245, 222, 179,0.6);
     }
 
     button{

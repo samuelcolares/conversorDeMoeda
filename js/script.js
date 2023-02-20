@@ -1,4 +1,4 @@
-// 1. Importando elementos do HTML
+// 1. Importando elementos do HTML dentro de uma função por quê decidi colocar um seletor de escolhas e aplicar o evento "change", com isso eu preciso fazer a releitura dos elementos importados do HTML para eles funcionarem corretamente.
 function cacheSelectors() {
     const dolar = document.getElementById('dolar')
     const real = document.getElementById('real')
@@ -9,13 +9,12 @@ function cacheSelectors() {
 
 }
 
-cacheSelectors()
-
+// 1.1 Importando elementos do HTML esses não precisam ser chamados novamente então ficaram no objeto window
 const section = document.getElementById('currencyData')
 const select = document.forms['formCurrency']['currency']
 const label = document.forms['formCurrency'].firstChild.nextElementSibling
 
-
+// 2. evento 'change' com método de verificação Switch, sempre que o houver mudança no select de opções, emitir no HTML de uma seção um formulário com inputs e labels e após isso, como houve mudança no HTML, chamar a função do ITEM 1. e enfim um evento de clique para o botão e dentro contendo a função promise para chamar a API
 select.addEventListener('change', (e) => {
     label.innerText = 'Moeda Selecionada:'
     let selectValor = e.target.value
@@ -168,7 +167,9 @@ select.addEventListener('change', (e) => {
     }
 })
 
+// 3. Importação da API com fetch Promise.
 
+// 3.1 Atribuição de variáveis para enviar como parâmetro da função que recebe a fetch promise
 const dolarAPI = `https://api.freecurrencyapi.com/v1/latest?apikey=kSgG33O2dtg2zCZc6hax48j0UkqwtHO5LJmWPID9&currencies=BRL%2CEUR%2CGBP%2CJPY`
 const realAPI = 'https://api.freecurrencyapi.com/v1/latest?apikey=kSgG33O2dtg2zCZc6hax48j0UkqwtHO5LJmWPID9&currencies=USD%2CEUR%2CJPY%2CGBP&base_currency=BRL'
 const euroAPI = 'https://api.freecurrencyapi.com/v1/latest?apikey=kSgG33O2dtg2zCZc6hax48j0UkqwtHO5LJmWPID9&currencies=USD%2CBRL%2CJPY%2CGBP&base_currency=EUR'
@@ -176,17 +177,16 @@ const libraAPI = 'https://api.freecurrencyapi.com/v1/latest?apikey=kSgG33O2dtg2z
 const ieneAPI = 'https://api.freecurrencyapi.com/v1/latest?apikey=kSgG33O2dtg2zCZc6hax48j0UkqwtHO5LJmWPID9&currencies=USD%2CBRL%2CEUR%2CGBP&base_currency=JPY'
 
 
-// 2. Função de chamar a API
+// 3.2 Função de chamar a API, recebendo três parametros, o primeiro sendo o ITEM 3.1, o segundo o ITEM 3.3 e o terceiro recebe o valor do input 
 function convert(api, currencyChange, currencyValue) {
-    const self = this
     fetch(api)
         .then(parseJSON)
-        .then(function (response) {
-            currencyChange.call(self, response, currencyValue);
-        })
+        // 3.2.1 a função fetch promise pode receber infinitos 'then', porém apenas uma função dentro do then. então uma arrow function para servir de callback com 1 parâmetro que será passado para a função de dentro com o método call assim como o parâmetro do valor do input
+        .then((response) => currencyChange.call(this, response, currencyValue))
         .catch(exibirError)
 }
 
+// 3.3 funções para pegar os dados da API e fazer a conta de câmbio de moedas.
 function currencyBRL(response, BRL) {
     let moeda = parseFloat(BRL)
     let apiResponse = response.data
